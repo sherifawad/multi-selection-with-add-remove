@@ -4,7 +4,7 @@ import React from "react";
 import { ChevronDown, LoaderIcon, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -228,7 +228,13 @@ function PropertyCommand({ items, onSelect, onClose, selectAll, selectedTab }: P
 	);
 
 	return (
-		<Command className="overflow-hidden flex flex-col">
+		<Command
+			className="overflow-hidden flex flex-col"
+			filter={(value, _) => {
+				if (value.toLowerCase().includes(searchValue.toLowerCase())) return 1;
+				return 0;
+			}}
+		>
 			<CommandInput
 				value={searchValue}
 				onValueChange={setSearchValue}
@@ -245,15 +251,18 @@ function PropertyCommand({ items, onSelect, onClose, selectAll, selectedTab }: P
 						{searchValue.length > 0 ? `${searchResults.length} of ${items.length}` : items.length}
 					</Badge>
 					<div className={cn("flex flex-1 gap-2", (searchValue.length > 0 || items.length < 1) && "hidden")}>
-						<CommandItem
-							onSelect={selectAll}
-							className="cursor-pointer flex-1 justify-center text-center mx-auto capitalize"
+						<span
+							onClick={selectAll}
+							className="relative flex justify-center gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer flex-1 text-center capitalize hover:bg-muted"
 						>
 							{selectedTab === "remove" ? "remove all" : "add all"}
-						</CommandItem>
+						</span>
 						<Separator orientation="vertical" className="h-full " />
 					</div>
-					<span onSelect={onClose} className="cursor-pointer flex-1 text-center capitalize hover:bg-muted">
+					<span
+						onClick={onClose}
+						className=" relative flex justify-center gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer flex-1 text-center capitalize hover:bg-muted"
+					>
 						close
 					</span>
 				</div>
