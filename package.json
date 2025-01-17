@@ -1,0 +1,40 @@
+{
+	"name": "multi-selection-with-add-remove",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@radix-ui/react-dialog": "^1.1.4",
+		"@radix-ui/react-popover": "^1.1.4",
+		"@radix-ui/react-scroll-area": "^1.2.2",
+		"@radix-ui/react-separator": "^1.1.1",
+		"@radix-ui/react-slot": "^1.1.1",
+		"@radix-ui/react-tabs": "^1.1.2",
+		"@radix-ui/react-tooltip": "^1.1.6",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"cmdk": "1.0.0",
+		"lucide-react": "^0.472.0",
+		"next": "14.2.23",
+		"next-themes": "^0.4.4",
+		"react": "^18",
+		"react-dom": "^18",
+		"react-highlight-words": "^0.21.0",
+		"tailwind-merge": "^2.6.0",
+		"tailwindcss-animate": "^1.0.7"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.7",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"@types/react-highlight-words": "^0.20.0",
+		"postcss": "^8.5.1",
+		"tailwindcss": "^3.4.17",
+		"typescript": "^5.7.3"
+	}
+}
