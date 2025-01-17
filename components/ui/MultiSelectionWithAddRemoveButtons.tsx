@@ -210,6 +210,12 @@ type PropertyCommandProps = {
 function PropertyCommand({ items, onSelect, onClose, selectAll, selectedTab }: PropertyCommandProps) {
 	const [searchValue, setSearchValue] = React.useState("");
 
+	const searchResults =
+		searchValue.length > 0 ? items.filter((item) => item.label.toLowerCase().includes(searchValue.toLowerCase())) : [];
+
+	const isEmpty =
+		(searchValue.length > 0 && searchResults.length === 0) || (searchValue.length === 0 && items.length === 0);
+
 	const getItemList = (item: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => (
 		<CommandItem className="cursor-pointer" key={item.value} onSelect={() => onSelect?.(item)}>
 			<Highlighter
@@ -230,23 +236,26 @@ function PropertyCommand({ items, onSelect, onClose, selectAll, selectedTab }: P
 				placeholder="Search..."
 			/>
 			<CommandList className="overflow-auto">
-				<CommandEmpty className="py-6 capitalize">empty</CommandEmpty>
+				<div className={cn("py-6 capitalize text-center hidden", isEmpty && "block")}>empty</div>
 				<CommandGroup>{items?.map(getItemList)}</CommandGroup>
 			</CommandList>
 			<div className="border-t p-2 bg-background sticky bottom-0 z-10">
-				<div className="flex items-center justify-between gap-2">
-					{items.length > 0 && (
-						<>
-							<Badge>{items.length}</Badge>
-							<CommandItem onSelect={selectAll} className="flex-1 cursor-pointer justify-center capitalize">
-								{selectedTab === "remove" ? "remove all" : "add all"}
-							</CommandItem>
-							<Separator orientation="vertical" className="h-6" />
-						</>
-					)}
-					<CommandItem onSelect={onClose} className="flex-1 cursor-pointer justify-center capitalize">
+				<div className="flex  gap-2">
+					<Badge className="max-w-max">
+						{searchValue.length > 0 ? `${searchResults.length} of ${items.length}` : items.length}
+					</Badge>
+					<div className={cn("flex flex-1 gap-2", (searchValue.length > 0 || items.length < 1) && "hidden")}>
+						<CommandItem
+							onSelect={selectAll}
+							className="cursor-pointer flex-1 justify-center text-center mx-auto capitalize"
+						>
+							{selectedTab === "remove" ? "remove all" : "add all"}
+						</CommandItem>
+						<Separator orientation="vertical" className="h-full " />
+					</div>
+					<span onSelect={onClose} className="cursor-pointer flex-1 text-center capitalize hover:bg-muted">
 						close
-					</CommandItem>
+					</span>
 				</div>
 			</div>
 		</Command>
