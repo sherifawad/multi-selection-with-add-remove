@@ -105,8 +105,8 @@ export function CopyNpmCommandButton({ commands, className, ...props }: CopyNpmC
 		}, 2000);
 	}, [hasCopied]);
 
-	const copyCommand = React.useCallback((value: string, pm: "npm" | "pnpm" | "yarn" | "bun") => {
-		copyToClipboardWithMeta(value);
+	const copyCommand = React.useCallback((value: string[], pm: "npm" | "pnpm" | "yarn" | "bun") => {
+		copyToClipboardWithMeta(value.join("\n"));
 		setHasCopied(true);
 	}, []);
 
