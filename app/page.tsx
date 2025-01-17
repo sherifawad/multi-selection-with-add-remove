@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MultiSelectionWithAddRemoveButtons } from "@/components/ui/MultiSelectionWithAddRemoveButtons";
+import { MultiSelection } from "@/components/ui/multi-selection";
 
 const options = [
 	{ label: "Apple", value: "apple" },
@@ -15,14 +15,10 @@ export default function Home() {
 	const [selectedFruits, setSelectedFruits] = useState<string[] | undefined>([]);
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center p-24">
+		<main className="flex  flex-col items-center justify-center gap-8 p-24">
 			<div className="w-full max-w-md space-y-4">
 				<h1 className="text-2xl font-bold">Fruit Selector</h1>
-				<MultiSelectionWithAddRemoveButtons
-					options={options}
-					value={selectedFruits}
-					onValueSelected={setSelectedFruits}
-				/>
+				<MultiSelection options={options} value={selectedFruits} onValueSelected={setSelectedFruits} />
 				<div>
 					<h2 className="text-lg font-semibold">Selected Fruits:</h2>
 					<ul>

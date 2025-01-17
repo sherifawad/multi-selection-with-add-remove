@@ -16,7 +16,7 @@ import Highlighter from "react-highlight-words";
 const tabTitles = ["add", "remove"] as const;
 type tabTitleType = (typeof tabTitles)[number];
 
-type MultiSelectionWithAddRemoveButtonsProps = {
+type MultiSelectionProps = {
 	value?: string[];
 	options: {
 		label: string;
@@ -26,12 +26,7 @@ type MultiSelectionWithAddRemoveButtonsProps = {
 	isLoading?: boolean;
 };
 
-export function MultiSelectionWithAddRemoveButtons({
-	onValueSelected,
-	value,
-	options,
-	isLoading,
-}: MultiSelectionWithAddRemoveButtonsProps) {
+export function MultiSelection({ onValueSelected, value, options, isLoading }: MultiSelectionProps) {
 	const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 	const [activeTab, setActiveTab] = React.useState<tabTitleType>("add");
 
@@ -48,7 +43,7 @@ export function MultiSelectionWithAddRemoveButtons({
 	const handleTogglePopover = React.useCallback(() => setIsPopoverOpen((prev) => !prev), []);
 
 	const handleSelect = React.useCallback(
-		(item: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => {
+		(item: MultiSelectionProps["options"][number]) => {
 			const newList = activeTab === "add" ? [...data.remove, item] : data.remove.filter((d) => d.value !== item.value);
 			onValueSelected(newList.map((d) => d.value));
 		},
@@ -60,7 +55,7 @@ export function MultiSelectionWithAddRemoveButtons({
 	}, [activeTab, onValueSelected, options]);
 
 	const handleUnselect = React.useCallback(
-		(item: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => {
+		(item: MultiSelectionProps["options"][number]) => {
 			const newList = data.remove.filter((d) => d.value !== item.value);
 			onValueSelected(newList.map((d) => d.value));
 		},
@@ -90,10 +85,10 @@ export function MultiSelectionWithAddRemoveButtons({
 }
 
 type SelectedPropertyProps = React.ComponentProps<"button"> & {
-	selected?: MultiSelectionWithAddRemoveButtonsProps["options"];
+	selected?: MultiSelectionProps["options"];
 	isLoading?: boolean;
 	handleTogglePopover?: () => void;
-	handleUnselect?: (item: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => void;
+	handleUnselect?: (item: MultiSelectionProps["options"][number]) => void;
 };
 
 function SelectedProperty({
@@ -166,12 +161,12 @@ function SelectedProperty({
 }
 
 type PropertiesListProps = {
-	list: Record<tabTitleType, MultiSelectionWithAddRemoveButtonsProps["options"][number][]>;
+	list: Record<tabTitleType, MultiSelectionProps["options"][number][]>;
 	onTabValueChange: (value: tabTitleType) => Promise<void>;
 	selectedTab: tabTitleType;
 	selectAll: () => void;
 	onClose: () => void;
-	onSelect?: (value: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => void;
+	onSelect?: (value: MultiSelectionProps["options"][number]) => void;
 };
 
 function PropertiesList({ list, onTabValueChange, selectedTab, ...props }: PropertiesListProps) {
@@ -200,8 +195,8 @@ function PropertiesList({ list, onTabValueChange, selectedTab, ...props }: Prope
 }
 
 type PropertyCommandProps = {
-	items: MultiSelectionWithAddRemoveButtonsProps["options"][number][];
-	onSelect?: (value: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => void;
+	items: MultiSelectionProps["options"][number][];
+	onSelect?: (value: MultiSelectionProps["options"][number]) => void;
 	selectedTab: tabTitleType;
 	selectAll?: () => void;
 	onClose?: () => void;
@@ -216,7 +211,7 @@ function PropertyCommand({ items, onSelect, onClose, selectAll, selectedTab }: P
 	const isEmpty =
 		(searchValue.length > 0 && searchResults.length === 0) || (searchValue.length === 0 && items.length === 0);
 
-	const getItemList = (item: MultiSelectionWithAddRemoveButtonsProps["options"][number]) => (
+	const getItemList = (item: MultiSelectionProps["options"][number]) => (
 		<CommandItem className="cursor-pointer" key={item.value} onSelect={() => onSelect?.(item)}>
 			<Highlighter
 				highlightClassName="rounded-md bg-amber-300/70 px-1 py-0.5 text-foreground"
