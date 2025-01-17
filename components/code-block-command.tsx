@@ -43,7 +43,7 @@ export function CodeBlockCommand({
 			return;
 		}
 
-		copyToClipboardWithMeta(command);
+		copyToClipboardWithMeta(command.join("\n"));
 		setHasCopied(true);
 	}, [packageManager, tabs]);
 
@@ -72,15 +72,19 @@ export function CodeBlockCommand({
 				</div>
 				{Object.entries(tabs).map(([key, value]) => {
 					return (
-						<TabsContent key={key} value={key} className="mt-0 max-w-md overflow-x-auto ">
-							<pre className="px-4 py-5">
-								<code
-									className="relative font-mono text-sm dark:text-foreground text-background leading-none pe-4"
-									data-language="bash"
-								>
-									{value}
-								</code>
-							</pre>
+						<TabsContent key={key} value={key} className="mt-0  ps-2  py-2 overflow-x-auto">
+							{value?.map((command, index) => {
+								return (
+									<pre key={index} className="">
+										<code
+											className="relative font-mono text-sm dark:text-foreground text-background leading-none pe-4"
+											data-language="bash"
+										>
+											{command}
+										</code>
+									</pre>
+								);
+							})}
 						</TabsContent>
 					);
 				})}
